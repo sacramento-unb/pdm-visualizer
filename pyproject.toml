@@ -1,0 +1,21 @@
+[project]
+name = "pdm-visualizer"
+version = "1.0.0"
+description = "Visualizador web interativo para modelos PowerDesigner PDM e CDM"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.116.1",
+  "lxml==6.0.1",
+  "python-multipart==0.0.20",
+  "uvicorn[standard]==0.35.0",
+]
+
+[project.optional-dependencies]
+test = [
+  "httpx==0.28.1",
+  "pytest==8.4.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

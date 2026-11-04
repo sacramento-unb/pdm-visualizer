@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09111f" />
+    <title>PowerDesigner Model Visualizer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">PD</div>
+        <div>
+          <h1>PowerDesigner Model Visualizer</h1>
+          <p id="model-caption">Abra um modelo PDM ou CDM do PowerDesigner</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div id="model-stats" class="model-stats" aria-live="polite"></div>
+        <button id="load-demo" class="demo-button">Ver exemplo</button>
+        <label class="upload-button" for="pdm-file">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5"/></svg>
+          Abrir modelo
+        </label>
+        <input id="pdm-file" type="file" accept=".pdm,.cdm,.xml,application/xml,text/xml" />
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="panel navigator" aria-label="Objetos do modelo">
+        <div class="panel-header">
+          <div>
+            <span class="eyebrow">Explorador</span>
+            <h2>Objetos por tema</h2>
+          </div>
+          <div class="panel-actions">
+            <button id="enable-relationships" class="icon-button relationship-action" title="Habilitar todos os relacionamentos das tabelas selecionadas" aria-label="Habilitar relacionamentos das tabelas selecionadas" disabled>↔</button>
+            <button id="clear-selection" class="icon-button" title="Desmarcar todos" aria-label="Desmarcar todos" disabled>×</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+          <input id="object-search" type="search" placeholder="Buscar nome ou código" disabled />
+        </div>
+        <div id="object-tree" class="object-tree empty-state">
+          <div class="empty-icon">⌘</div>
+          <strong>Nenhum modelo aberto</strong>
+            <span>Use “Abrir modelo” para começar.</span>
+        </div>
+      </aside>
+
+      <section class="diagram-shell" aria-label="Diagrama do modelo">
+        <div class="diagram-toolbar">
+          <div class="selection-count"><strong id="visible-count">0</strong> objetos visíveis</div>
+          <div class="toolbar-group">
+            <button id="organize-diagram" class="tool-button text-tool" title="Organizar tabelas relacionadas" disabled>Organizar</button>
+            <button id="zoom-out" class="tool-button" title="Reduzir" disabled>−</button>
+            <button id="fit-diagram" class="tool-button text-tool" disabled>Ajustar</button>
+            <button id="zoom-in" class="tool-button" title="Ampliar" disabled>+</button>
+          </div>
+        </div>
+        <div id="diagram-viewport" class="diagram-viewport">
+          <div id="diagram-empty" class="diagram-empty">
+            <div class="diagram-empty-graphic">
+              <i></i><i></i><i></i><span></span><span></span>
+            </div>
+            <h2>O diagrama começa com a sua seleção</h2>
+            <p>Marque tabelas ou entidades no painel à esquerda. Marque também os relacionamentos que deseja exibir.</p>
+          </div>
+          <div id="diagram-canvas" class="diagram-canvas" hidden>
+            <svg id="edge-layer" class="edge-layer" aria-hidden="true">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" />
+                </marker>
+              </defs>
+              <g id="edges"></g>
+            </svg>
+            <div id="nodes" class="nodes"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel inspector" aria-label="Metadados do objeto">
+        <div id="inspector-empty" class="inspector-empty">
+          <div class="empty-icon">i</div>
+          <strong>Metadados do objeto</strong>
+          <span>Clique em uma tabela ou objeto no diagrama.</span>
+        </div>
+        <div id="inspector-content" hidden></div>
+      </aside>
+    </main>
+
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+    <div id="loading" class="loading-overlay" hidden>
+      <div class="spinner"></div>
+      <strong>Lendo o modelo</strong>
+      <span>Organizando objetos, colunas e relacionamentos…</span>
+    </div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

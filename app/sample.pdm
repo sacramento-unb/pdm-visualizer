@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
+  <o:RootObject Id="root">
+    <c:Children>
+      <o:Model Id="model-demo">
+        <a:Name>Comércio Digital</a:Name>
+        <a:Code>COMERCIO_DIGITAL</a:Code>
+        <a:Comment>Modelo demonstrativo do PDM Visualizer.</a:Comment>
+        <a:Creator>f606859</a:Creator>
+        <a:Modifier>f606859</a:Modifier>
+        <c:DBMS><o:Shortcut Id="dbms"><a:Name>IBM DB2 LUW</a:Name></o:Shortcut></c:DBMS>
+        <c:Tables>
+          <o:Table Id="t-cliente">
+            <a:Name>Cliente</a:Name><a:Code>CLIENTE</a:Code><a:Comment>Cliente que realiza pedidos.</a:Comment><a:Creator>f606859</a:Creator><a:Modifier>f606859</a:Modifier>
+            <c:Columns>
+              <o:Column Id="c-cliente-id"><a:Name>NU_CLIENTE</a:Name><a:Code>NU_CLIENTE</a:Code><a:DataType>INTEGER</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Identificador do cliente.</a:Comment></o:Column>
+              <o:Column Id="c-cliente-nome"><a:Name>NO_CLIENTE</a:Name><a:Code>NO_CLIENTE</a:Code><a:DataType>VARCHAR(120)</a:DataType><a:Length>120</a:Length><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Nome do cliente.</a:Comment></o:Column>
+              <o:Column Id="c-cliente-email"><a:Name>DE_EMAIL</a:Name><a:Code>DE_EMAIL</a:Code><a:DataType>VARCHAR(180)</a:DataType><a:Length>180</a:Length><a:Comment>Endereço eletrônico do cliente.</a:Comment></o:Column>
+            </c:Columns>
+            <c:Keys><o:Key Id="k-cliente"><a:Name>PK_CLIENTE</a:Name><a:ConstraintName>PK_CLIENTE</a:ConstraintName><c:Key.Columns><o:Column Ref="c-cliente-id"/></c:Key.Columns></o:Key></c:Keys>
+            <c:PrimaryKey><o:Key Ref="k-cliente"/></c:PrimaryKey>
+          </o:Table>
+          <o:Table Id="t-pedido">
+            <a:Name>Pedido</a:Name><a:Code>PEDIDO</a:Code><a:Comment>Pedido comercial do cliente.</a:Comment><a:Creator>f606859</a:Creator><a:Modifier>f606859</a:Modifier>
+            <c:Columns>
+              <o:Column Id="c-pedido-id"><a:Name>NU_PEDIDO</a:Name><a:Code>NU_PEDIDO</a:Code><a:DataType>BIGINT</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Identificador do pedido.</a:Comment></o:Column>
+              <o:Column Id="c-pedido-cliente"><a:Name>NU_CLIENTE</a:Name><a:Code>NU_CLIENTE</a:Code><a:DataType>INTEGER</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Cliente responsável pelo pedido.</a:Comment></o:Column>
+              <o:Column Id="c-pedido-data"><a:Name>DH_PEDIDO</a:Name><a:Code>DH_PEDIDO</a:Code><a:DataType>TIMESTAMP</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Data e hora de registro do pedido.</a:Comment></o:Column>
+            </c:Columns>
+            <c:Keys><o:Key Id="k-pedido"><a:Name>PK_PEDIDO</a:Name><a:ConstraintName>PK_PEDIDO</a:ConstraintName><c:Key.Columns><o:Column Ref="c-pedido-id"/></c:Key.Columns></o:Key></c:Keys>
+            <c:PrimaryKey><o:Key Ref="k-pedido"/></c:PrimaryKey>
+          </o:Table>
+          <o:Table Id="t-item">
+            <a:Name>Item do pedido</a:Name><a:Code>ITEM_PEDIDO</a:Code><a:Comment>Produto e quantidade do pedido.</a:Comment><a:Creator>f606859</a:Creator><a:Modifier>f606859</a:Modifier>
+            <c:Columns>
+              <o:Column Id="c-item-pedido"><a:Name>NU_PEDIDO</a:Name><a:Code>NU_PEDIDO</a:Code><a:DataType>BIGINT</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Pedido ao qual o item pertence.</a:Comment></o:Column>
+              <o:Column Id="c-item-seq"><a:Name>NU_ITEM</a:Name><a:Code>NU_ITEM</a:Code><a:DataType>SMALLINT</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Número sequencial do item.</a:Comment></o:Column>
+              <o:Column Id="c-item-produto"><a:Name>CO_PRODUTO</a:Name><a:Code>CO_PRODUTO</a:Code><a:DataType>CHAR(12)</a:DataType><a:Length>12</a:Length><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Código comercial do produto.</a:Comment></o:Column>
+              <o:Column Id="c-item-qtd"><a:Name>QT_PRODUTO</a:Name><a:Code>QT_PRODUTO</a:Code><a:DataType>DECIMAL(9,2)</a:DataType><a:Column.Mandatory>1</a:Column.Mandatory><a:Comment>Quantidade do produto.</a:Comment></o:Column>
+            </c:Columns>
+            <c:Keys><o:Key Id="k-item"><a:Name>PK_ITEM_PEDIDO</a:Name><a:ConstraintName>PK_ITEM_PEDIDO</a:ConstraintName><c:Key.Columns><o:Column Ref="c-item-pedido"/><o:Column Ref="c-item-seq"/></c:Key.Columns></o:Key></c:Keys>
+            <c:PrimaryKey><o:Key Ref="k-item"/></c:PrimaryKey>
+          </o:Table>
+        </c:Tables>
+        <c:References>
+          <o:Reference Id="r-pedido-cliente"><a:Name>Pedido do cliente</a:Name><a:Code>FK_PEDIDO_CLIENTE</a:Code><a:Cardinality>0,n</a:Cardinality><c:ParentTable><o:Table Ref="t-cliente"/></c:ParentTable><c:ChildTable><o:Table Ref="t-pedido"/></c:ChildTable><c:Joins><o:ReferenceJoin Id="j1"><c:Object1><o:Column Ref="c-cliente-id"/></c:Object1><c:Object2><o:Column Ref="c-pedido-cliente"/></c:Object2></o:ReferenceJoin></c:Joins></o:Reference>
+          <o:Reference Id="r-item-pedido"><a:Name>Itens do pedido</a:Name><a:Code>FK_ITEM_PEDIDO</a:Code><a:Cardinality>1,n</a:Cardinality><c:ParentTable><o:Table Ref="t-pedido"/></c:ParentTable><c:ChildTable><o:Table Ref="t-item"/></c:ChildTable><c:Joins><o:ReferenceJoin Id="j2"><c:Object1><o:Column Ref="c-pedido-id"/></c:Object1><c:Object2><o:Column Ref="c-item-pedido"/></c:Object2></o:ReferenceJoin></c:Joins></o:Reference>
+        </c:References>
+      </o:Model>
+    </c:Children>
+  </o:RootObject>
+</Model>
